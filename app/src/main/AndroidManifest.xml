@@ -19,10 +19,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".newOderActivity"
-            android:label="New Order" >
-
-        </activity>
+        <activity
+            android:name=".newOderActivity"
+            android:label="New Order"></activity>
+        <activity android:name=".DetailsActivity"></activity>
     </application>
 
 </manifest>
