@@ -1,5 +1,7 @@
 package com.example.eshop;
 
+import android.arch.persistence.room.Room;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
@@ -31,6 +33,12 @@ int itemId;
         quantityDisplay=findViewById(R.id.quantityDisplay);
         amountDisplay=findViewById(R.id.amountDisplay);
         itemDisplay=findViewById(R.id.itemDisplay);
+        Intent intent=getIntent();
+        if(intent!=null&& intent.hasExtra(intent.EXTRA_TEXT)){
+            itemId=intent.getIntExtra(intent.EXTRA_TEXT,-1);
+            Order order=myDatabase().appDao().getID(itemId);
+            UpdateDetailsInterface(order);
+        }
 
     }
     public void UpdateDetailsInterface(Order order){
@@ -45,5 +53,11 @@ int itemId;
         dateDisplay.setText(order.getDate());
 
 
+    }
+    public AppDataBase myDatabase(){
+        String DbName="room_db";
+        AppDataBase appDataBase= Room.databaseBuilder(getApplicationContext(),
+                AppDataBase.class,DbName).allowMainThreadQueries().build();
+        return appDataBase;
     }
 }

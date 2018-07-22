@@ -12,9 +12,11 @@ import java.util.List;
 public class AppAdapter extends RecyclerView.Adapter<AppAdapter.AppViewHolder> {
     private List<Order> orderList;
     private Context mcontext;
+    private orderClickListener ListClickListener;
 
-    public AppAdapter(Context mcontext) {
+    public AppAdapter(Context mcontext, orderClickListener listClickListener) {
         this.mcontext = mcontext;
+        ListClickListener = listClickListener;
     }
 
     @Override
@@ -48,7 +50,7 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.AppViewHolder> {
         return orderList.size();
 
     }
-    public class AppViewHolder extends RecyclerView.ViewHolder{
+    public class AppViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView item;
         TextView amount;
         TextView dates;
@@ -60,7 +62,19 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.AppViewHolder> {
           amount=(itemView).findViewById(R.id.orderlistamount);
             dates=(itemView).findViewById(R.id.orderlstdate);
             comment=(itemView).findViewById(R.id.orderlistcomment);
+            itemView.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View view) {
+            int id=orderList.get(getAdapterPosition()).getId();
+            ListClickListener.onItemClick(id);
+
+        }
+    }
+    public interface orderClickListener{
+        void onItemClick(int id);
+
     }
     public List<Order> getExpenditureList() {
         return orderList;

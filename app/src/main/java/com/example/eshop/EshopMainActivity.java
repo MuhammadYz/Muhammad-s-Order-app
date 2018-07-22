@@ -15,7 +15,7 @@ import android.view.MenuItem;
 
 import java.util.List;
 
-public class EshopMainActivity extends AppCompatActivity {
+public class EshopMainActivity extends AppCompatActivity implements AppAdapter.orderClickListener {
     private RecyclerView appRecyclerView;
     private AppAdapter appAdapter;
 
@@ -30,7 +30,7 @@ public class EshopMainActivity extends AppCompatActivity {
 
         appRecyclerView=findViewById(R.id.myRecyclerView);
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
-        appAdapter=new AppAdapter(this);
+        appAdapter=new AppAdapter(this,this);
         appRecyclerView.setAdapter(appAdapter);
         appRecyclerView.setHasFixedSize(true);
         appRecyclerView.setLayoutManager(linearLayoutManager);
@@ -78,5 +78,13 @@ public class EshopMainActivity extends AppCompatActivity {
         AppDataBase appDataBase= Room.databaseBuilder(getApplicationContext(),
                 AppDataBase.class,DbName).allowMainThreadQueries().build();
         return appDataBase;
+    }
+
+    @Override
+    public void onItemClick(int id) {
+        Intent startDetailsActivity=new Intent(this,DetailsActivity.class);
+        startDetailsActivity.putExtra(Intent.EXTRA_TEXT,id);
+        startActivity(startDetailsActivity);
+
     }
 }
