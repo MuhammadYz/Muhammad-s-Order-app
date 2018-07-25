@@ -20,6 +20,10 @@ public interface AppDao {
                      String orderDate, String mdeOfPayment, String productAmount, String productQuantity);
     @Query("SELECT * FROM `order`WHERE id=(:ID)")
     Order getID(int ID);
+    @Query("DELETE  FROM `order`")
+    void deleteall();
+    @Query("DELETE FROM `order` WHERE id=:id")
+    abstract  void  deleteByUserId(int id);
     @Insert
     void insertNewOrder(Order order);
     @Delete

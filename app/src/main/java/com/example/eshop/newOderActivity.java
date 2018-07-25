@@ -1,13 +1,24 @@
 package com.example.eshop;
 
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.arch.persistence.room.Room;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.Calendar;
 
 public class newOderActivity extends AppCompatActivity {
     EditText buyerName;
@@ -15,11 +26,12 @@ public class newOderActivity extends AppCompatActivity {
     EditText quantitys;
     EditText amountInput;
     EditText comments;
-    private EditText dates;
+    private TextView dates;
     EditText phoneContacts;
     EditText emails;
     EditText locations;
     private String modeOfPayment;
+    DatePicker mDatePickerDialog;
 
 
     @Override
@@ -38,6 +50,40 @@ public class newOderActivity extends AppCompatActivity {
 
 
 
+
+
+
+    }
+    public void onCreateDialog(){
+
+        Calendar calendar=Calendar.getInstance();
+        int year=calendar.get(Calendar.YEAR);
+        int months=calendar.get(Calendar.MONTH);
+        int day=calendar.get(Calendar.DAY_OF_MONTH);
+
+        View view= LayoutInflater.from(this).inflate(R.layout.date_dialog,null);
+        mDatePickerDialog = view.findViewById(R.id.datePicker);
+        mDatePickerDialog.init(year,months,day,null);
+        AlertDialog.Builder builder=new AlertDialog.Builder(this);
+        builder.setTitle("Date")
+                .setView(view)
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        int year=mDatePickerDialog.getYear();
+                        int months=mDatePickerDialog.getMonth();
+                        int day=mDatePickerDialog.getDayOfMonth();
+                        months=months++;
+
+                        String date=String.valueOf(day+"/"+months+"/"+year);
+                        dates.setText(date);
+                    }
+                });
+        Dialog dialog=builder.create();
+        dialog.show();
+    }
+    public void viewDatePicker(View view){
+        onCreateDialog();
     }
     public void saveOrderDetails(View makeOrderButton){
         String nameOfBuyer=buyerName.getText().toString();
