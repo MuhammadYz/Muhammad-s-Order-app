@@ -1,10 +1,13 @@
 package com.example.eshop;
 
+import android.arch.persistence.room.Room;
+import android.content.ClipData;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -13,6 +16,17 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.AppViewHolder> {
     private List<Order> orderList;
     private Context mcontext;
     private orderClickListener ListClickListener;
+
+    Order neworder;
+
+    public AppDataBase myDatabase(){
+        String DbName="room_db";
+        AppDataBase appDataBase= Room.databaseBuilder(mcontext,
+                AppDataBase.class,DbName).allowMainThreadQueries().build();
+        return appDataBase;
+    }
+
+
 
     public AppAdapter(Context mcontext, orderClickListener listClickListener) {
         this.mcontext = mcontext;
@@ -55,6 +69,8 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.AppViewHolder> {
         TextView amount;
         TextView dates;
         TextView comment;
+        public RelativeLayout viewForeground,viewBackground;
+
 
         public AppViewHolder(View itemView) {
             super(itemView);
@@ -62,7 +78,10 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.AppViewHolder> {
           amount=(itemView).findViewById(R.id.orderlistamount);
             dates=(itemView).findViewById(R.id.orderlstdate);
             comment=(itemView).findViewById(R.id.orderlistcomment);
+
+            viewForeground=(itemView).findViewById(R.id.view_foreground);
             itemView.setOnClickListener(this);
+
         }
 
         @Override
@@ -82,6 +101,16 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.AppViewHolder> {
     public void setOrderListData(List<Order> orderListData){
         orderList=orderListData;
         notifyDataSetChanged();
+    }
+    public void removeItem(int position){
+
+        orderList.remove(position);
+        notifyItemRemoved(position);
+    }
+    public void restoreItem(Order order, int position){
+        orderList.add(position,order);
+        myDatabase().appDao().updateDatabase(order);
+        notifyItemInserted(position);
     }
 
 }

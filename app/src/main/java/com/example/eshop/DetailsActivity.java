@@ -2,9 +2,13 @@ package com.example.eshop;
 
 import android.arch.persistence.room.Room;
 import android.content.Intent;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 public class DetailsActivity extends AppCompatActivity {
 TextView itemDisplay;
@@ -17,7 +21,9 @@ TextView phoneContactDisplay;
 TextView dateDisplay;
 TextView quantityDisplay;
 TextView amountDisplay;
+
 int itemId;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +39,9 @@ int itemId;
         quantityDisplay=findViewById(R.id.quantityDisplay);
         amountDisplay=findViewById(R.id.amountDisplay);
         itemDisplay=findViewById(R.id.itemDisplay);
+
         Intent intent=getIntent();
+
         if(intent!=null&& intent.hasExtra(intent.EXTRA_TEXT)){
             itemId=intent.getIntExtra(intent.EXTRA_TEXT,-1);
             Order order=myDatabase().appDao().getID(itemId);

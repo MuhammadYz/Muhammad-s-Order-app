@@ -114,6 +114,10 @@ public class newOderActivity extends AppCompatActivity {
             startActivity(openMainActivity);
 
         }
+        else {
+            Toast.makeText(this,"Fill all the fields please",Toast.LENGTH_SHORT).show();
+        }
+
 
     }
     public void getPaymentMode(View rdb){
