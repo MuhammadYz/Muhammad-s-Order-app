@@ -1,6 +1,8 @@
 <resources>
-    <string name="app_name">ESHOP</string>
+    <string name="app_name">E-SHOP</string>
     <string name="action_settings">Settings</string>
     <string name="delete">DELETE</string>
     <string name="Undo">UNDO</string>
+    <string name="details_name">Details</string>
+    <string name="new_order_name">New Order</string>
 </resources>
